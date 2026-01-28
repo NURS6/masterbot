@@ -7,12 +7,6 @@ from aiogram.filters import CommandStart
 from aiogram.types import FSInputFile
 
 # Вставь сюда токен, который тебе дал @BotFather
-#ОТПРАВЛЯЕМ ЛИД ТЕБЕ
-
-    admin_id = os.getenv('ADMIN_ID')
-    if admin_id:
-        await bot.send_message(admin_id, f"🔥 НОВЫЙ ЛИД!\nИмя: {user_name}\nTG: {username}")
-
 bot = Bot(token=os.getenv('BOT_TOKEN'))
 dp = Dispatcher()
 
@@ -53,13 +47,16 @@ async def services_handler(message: types.Message):
 # Ответ на кнопку "Оставить заявку"
 @dp.message(lambda message: message.text == "Оставить заявку")
 async def order_handler(message: types.Message):
-    # Берем имя пользователя, чтобы ответ был персональным
+    # Берем имя пользователя
     user_name = message.from_user.first_name
-    await message.answer(
-        f"🤝 {user_name}, я готов обсудить ваш проект!\n\n"
-        "Пожалуйста, напишите ваш номер телефона или @username для связи. "
-        "Также можете кратко описать, какой бот вам нужен. Я отвечу в течение часа."
-    )
+    username = f"@{message.from_user.username}" if message.from_user.username else "нет юзернейма"
+    
+    # --- ВСТАВЛЯЙ ЭТОТ БЛОК СЮДА ---
+        admin_id = os.getenv('ADMIN_ID')
+        if admin_id:
+            await bot.send_message(admin_id, f"🔥 НОВЫЙ ЛИД!\nИмя: {user_name}\nTG: {username}")
+    # ------------------------------
+await message.answer(f"🤝 {user_name}, я готов обсудить ваш проект!...")
 
 
 @dp.message()
@@ -89,3 +86,4 @@ async def main():
 if __name__ == '__main__':
 
     asyncio.run(main())
+
