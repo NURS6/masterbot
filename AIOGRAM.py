@@ -7,7 +7,11 @@ from aiogram.filters import CommandStart
 from aiogram.types import FSInputFile
 
 # Вставь сюда токен, который тебе дал @BotFather
+#ОТПРАВЛЯЕМ ЛИД ТЕБЕ
 
+    admin_id = os.getenv('ADMIN_ID')
+    if admin_id:
+        await bot.send_message(admin_id, f"🔥 НОВЫЙ ЛИД!\nИмя: {user_name}\nTG: {username}")
 
 bot = Bot(token=os.getenv('BOT_TOKEN'))
 dp = Dispatcher()
@@ -83,4 +87,5 @@ async def main():
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
+
     asyncio.run(main())
